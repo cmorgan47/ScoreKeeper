@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/packages
+/ScoreKeeper/bin
+/ScoreKeeper.Tests/bin/Debug
+/ScoreKeeper.Tests/obj/Debug
+/ScoreKeeper/obj/Debug

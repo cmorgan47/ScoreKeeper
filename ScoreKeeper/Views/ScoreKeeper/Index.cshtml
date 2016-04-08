@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Score Keeper</title>
+    <link rel="stylesheet" href="~/Content/Site.css" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/app.js"></script>
+
+</head>
+<body>
+    <div id="main">
+        <h2>Games</h2>
+
+        <div id="game-list-container">
+            <ul id="games-list"></ul>
+        </div>
+
+
+        <div id="add-game-form">
+            <div>
+                <div class="form-row">
+                    <label for="gameName">Name</label>
+                    <input type="text" id="game-name" />
+                </div>
+
+                <div class="form-row">
+                    <label for="game-description">Description</label>
+                    <input type="text" id="game-description" />
+                </div>
+
+                <div class="form-row">
+                    <label for="game-highest-score">High Score Wins?</label>
+                    <input type="checkbox" id="highest-score-wins" />
+                </div>
+            </div>
+            <div>
+                <button id="add-game" class="add-button">+</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
