@@ -1,11 +1,6 @@
-﻿$(document).ready(function () {
-    clearForm();
-    listGames();
+﻿var sKa = sKa || {};
 
-    $("#add-game").click(addGame);
-});
-
-function listGames() {
+sKa.listGames = function() {
     $.get("../api/Game", {}, function (data) {
         console.log("fetched games");
         $.each(data, function (ctr, record) {
@@ -14,13 +9,14 @@ function listGames() {
     });
 }
 
-function listMatches() {
+
+sKa.listMatches = function () {
     $.get("../api/Match", {}, function (data) {
         console.log("fetched data");
     });
 }
 
-function addGame() {
+sKa.addGame = function () {
     var data = { Name: $("#game-name").val(), Description: $("#game-description").val(), HighestScoreWins: $("#highest-score-wins").prop("checked") };
     $.post("../api/Game", data, function (data) {
         $("#games-list").empty();
@@ -29,7 +25,7 @@ function addGame() {
     });
 }
 
-function clearForm() {
+sKa.clearForm = function () {
     $("#game-name").val("");
     $("#game-description").val("");
     $("#highest-score-wins").prop("checked", true);
@@ -37,3 +33,13 @@ function clearForm() {
 
 
 
+
+
+
+
+$(document).ready(function () {
+    sKa.clearForm();
+    sKa.listGames();
+
+    $("#add-game").click(addGame);
+});
