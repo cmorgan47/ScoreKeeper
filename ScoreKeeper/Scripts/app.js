@@ -4,8 +4,9 @@ sKa.listGames = function() {
     $.get("../api/Game", {}, function (data) {
         console.log("fetched games");
         $.each(data, function (ctr, record) {
-            $("#games-list").append("<li class='game'>" + record.Name + " - " + record.Description + "</li>");
+            $("#games-list").append("<li id='"+ record.Name +"' class='game-title'>" + record.Name + " - " + record.Description + "</li>");
         });
+        $(".game-title").click(sKa.showGame);
     });
 }
 
@@ -31,8 +32,10 @@ sKa.clearForm = function () {
     $("#highest-score-wins").prop("checked", true);
 }
 
-
-
+sKa.showGame = function ()
+{
+    console.log(this.id);
+}
 
 
 
@@ -41,5 +44,5 @@ $(document).ready(function () {
     sKa.clearForm();
     sKa.listGames();
 
-    $("#add-game").click(addGame);
+    $("#add-game").click(sKa.addGame);
 });
