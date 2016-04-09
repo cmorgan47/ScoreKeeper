@@ -2,9 +2,8 @@
 
 sKa.listGames = function() {
     $.get("../api/Game", {}, function (data) {
-        console.log("fetched games");
         $.each(data, function (ctr, record) {
-            $("#games-list").append("<li id='"+ record.Id +"' class='game-title'>" + record.Name + " - " + record.Description + "</li>");
+            $("#games-list").append("<li id='"+ record.Id +"' class='game-title'>" + record.Name + "</li>");
         });
         $(".game-title").click(sKa.showGame);
     });
@@ -34,7 +33,20 @@ sKa.clearForm = function () {
 
 sKa.showGame = function ()
 {
-    console.log(this.id);
+    $(".selected").removeClass("selected");
+    $.get("../api/Game/" + this.id, {}, function (data) {
+        $('#' + data.Id).addClass("selected");
+        $("#game-details-title").html(data.Name);
+        $("#game-details-description").html(data.Description);
+        $("#game-details-match-list").empty();
+        if (data.MatchIds) {
+            $.each(data.MatchIds, function (ctr, match) {
+                $("#game-details-match-list").append("<li>" + match + "</li>");
+            });
+        }
+
+    });
+
 }
 
 

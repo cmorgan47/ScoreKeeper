@@ -26,10 +26,35 @@ ul{
     margin-bottom: 14px;
     font-size: 1.4em;
     border: solid black 1px;
-    padding: 6px 20px 6px 20px;
-    cursor: pointer;v
+    padding: 6px 80px 6px 80px;
+    cursor: pointer;
+    text-align: center;
 }
 
+
+#game-list-container{
+    float: left;
+}
+
+#game-details-container {
+    width: 400px;
+}
+
+#game-details-title{
+    font-size: 2em;
+}
+
+#game-details-description{
+    padding: 10px 0px 10px 20px;
+}
+
+#add-game-form{
+    padding-bottom: 40px;
+}
+
+.selected {
+    background-color : #dddddd;
+}
 
 .form-row{
     margin: 10px;
@@ -67,12 +92,3 @@ ul{
     margin-right: auto;
     margin-left: auto;
 }
-
-#game-list-container{
-    float: left;
-}
-
-#add-game-form{
-    float: right;
-}
-
