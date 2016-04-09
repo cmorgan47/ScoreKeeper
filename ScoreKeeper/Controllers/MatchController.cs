@@ -19,16 +19,27 @@ namespace ScoreKeeper.Controllers
             this.context = new MongoContext();
         }
 
-        public ICollection<Models.Match> Get()
+        public HttpResponseMessage Get()
         {
-            return this.context.Matches.Find(new BsonDocument()).ToList();
+            var ret = (this.context.Matches.AsQueryable())
+                .Select(x => x)
+                .ToList();
+
+            return this.Request.CreateResponse(
+                HttpStatusCode.OK,
+                ret);
         }
 
-        public Models.Match Get(string id)
+        public HttpResponseMessage Get(string id)
         {
-            var filter = Builders<Models.Match>.Filter.Eq("Id", ObjectId.Parse(id));
-            var ret = this.context.Matches.Find(filter).SingleOrDefault();
-            return ret;
+            var ret = (this.context.Matches.AsQueryable())
+                .Select(x => x)
+                .Where(x => x.Id == ObjectId.Parse(id))
+                .ToList();
+
+            return this.Request.CreateResponse(
+                HttpStatusCode.OK,
+                ret);
         }
 
         public HttpResponseMessage Post(Models.Match match)

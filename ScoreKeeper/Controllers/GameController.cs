@@ -20,21 +20,40 @@ namespace ScoreKeeper.Controllers
             this.context = new MongoContext();
         }
 
-        public ICollection<Models.Game> Get()
+        // cmorgan: leaving commented code in this version to illustrate the difference
+
+        public HttpResponseMessage Get()
         {
-            var ret = this.context.Games
-                .Find(new BsonDocument())
+            //var ret = this.context.Games
+            //    .Find(new BsonDocument())
+            //    .ToList();
+
+            var ret= (this.context.Games.AsQueryable())
+                .Select(x => new
+                {
+                    x.Id, 
+                    x.Name
+                })
                 .ToList();
 
-            return ret;
+            return this.Request.CreateResponse(
+                HttpStatusCode.OK,
+                ret);
         }
 
-        public Models.Game Get(string id)
+        public HttpResponseMessage Get(string id)
         {
-            var filter = Builders<Models.Game>.Filter.Eq("Id", ObjectId.Parse(id));
-            var ret = context.Games.Find(filter).FirstOrDefault();
+            //var filter = Builders<Models.Game>.Filter.Eq("Id", ObjectId.Parse(id));
+            //var ret = context.Games.Find(filter).FirstOrDefault();
 
-            return ret;
+            var ret = (this.context.Games.AsQueryable())
+                .Select(x => x)
+                .Where(x => x.Id == ObjectId.Parse(id))
+                .SingleOrDefault();
+
+            return this.Request.CreateResponse(
+                HttpStatusCode.OK,
+                ret);
         }
 
         public HttpResponseMessage Post(Models.Game game)
