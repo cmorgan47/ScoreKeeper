@@ -4,7 +4,7 @@ sKa.listGames = function() {
     $.get("../api/Game", {}, function (data) {
         console.log("fetched games");
         $.each(data, function (ctr, record) {
-            $("#games-list").append("<li id='"+ record.Name +"' class='game-title'>" + record.Name + " - " + record.Description + "</li>");
+            $("#games-list").append("<li id='"+ record.Id +"' class='game-title'>" + record.Name + " - " + record.Description + "</li>");
         });
         $(".game-title").click(sKa.showGame);
     });

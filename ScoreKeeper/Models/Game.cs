@@ -10,10 +10,11 @@ namespace ScoreKeeper.Models
     public class Game
     {
         [BsonId]
-        ObjectId Id { get; set; }
+        public ObjectId Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public ICollection<string> Categories { get; set; }
         public bool HighestScoreWins { get; set; }
+        public ICollection<ObjectId> MatchIds { get; set; }
     }
 }

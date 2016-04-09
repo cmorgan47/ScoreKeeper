@@ -22,10 +22,19 @@ namespace ScoreKeeper.Controllers
 
         public ICollection<Models.Game> Get()
         {
-            
-            return this.context.Games
+            var ret = this.context.Games
                 .Find(new BsonDocument())
                 .ToList();
+
+            return ret;
+        }
+
+        public Models.Game Get(string id)
+        {
+            var filter = Builders<Models.Game>.Filter.Eq("Id", ObjectId.Parse(id));
+            var ret = context.Games.Find(filter).FirstOrDefault();
+
+            return ret;
         }
 
         public HttpResponseMessage Post(Models.Game game)

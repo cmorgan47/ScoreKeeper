@@ -24,9 +24,23 @@ namespace ScoreKeeper.Controllers
             return this.context.Matches.Find(new BsonDocument()).ToList();
         }
 
+        public Models.Match Get(string id)
+        {
+            var filter = Builders<Models.Match>.Filter.Eq("Id", ObjectId.Parse(id));
+            var ret = this.context.Matches.Find(filter).SingleOrDefault();
+            return ret;
+        }
+
         public HttpResponseMessage Post(Models.Match match)
         {
+            var filter = Builders<Models.Game>.Filter.Eq("Id", ObjectId.Parse(match.GameId));
+            
             this.context.Matches.InsertOne(match);
+
+            var update = Builders<Models.Game>.Update
+                .Push("MatchIds", match.Id);
+            
+            this.context.Games.UpdateOne(filter, update);
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }

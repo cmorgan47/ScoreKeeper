@@ -10,8 +10,8 @@ namespace ScoreKeeper.Models
     public class Match
     {
         [BsonId]
-        ObjectId Id { get; set; }
-        public Game Game { get; set; }
+        public ObjectId Id { get; set; }
+        public string GameId { get; set; }
         public ICollection<Score> Scores { get; set; }
     }
 }
