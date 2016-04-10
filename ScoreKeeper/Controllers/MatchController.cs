@@ -7,6 +7,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ScoreKeeper.Models;
+using System.Text;
 
 namespace ScoreKeeper.Controllers
 {
@@ -22,7 +24,6 @@ namespace ScoreKeeper.Controllers
         public HttpResponseMessage Get()
         {
             var ret = (this.context.Matches.AsQueryable())
-                .Select(x => x)
                 .ToList();
 
             return this.Request.CreateResponse(
@@ -33,7 +34,6 @@ namespace ScoreKeeper.Controllers
         public HttpResponseMessage Get(string id)
         {
             var ret = (this.context.Matches.AsQueryable())
-                .Select(x => x)
                 .Where(x => x.Id == ObjectId.Parse(id))
                 .ToList();
 
@@ -42,18 +42,52 @@ namespace ScoreKeeper.Controllers
                 ret);
         }
 
+        //this is all pretty sloppy
         public HttpResponseMessage Post(Models.Match match)
         {
-            var filter = Builders<Models.Game>.Filter.Eq("Id", ObjectId.Parse(match.GameId));
-            
+            var highWins = (this.context.Games.AsQueryable())
+                .Where(x => x.Id == ObjectId.Parse(match.GameId))
+                .Select(x => x.HighestScoreWins)
+                .SingleOrDefault();
+
+            match.Description = GetDescription(match, highWins);
+
             this.context.Matches.InsertOne(match);
 
+            //todo: replace with linq? not sure how it will affect the .PUsh
+            // probably better since i need to grab something about the game up there
+            var filter = Builders<Models.Game>.Filter.Eq("Id", ObjectId.Parse(match.GameId));
             var update = Builders<Models.Game>.Update
                 .Push("MatchIds", match.Id);
-            
+
             this.context.Games.UpdateOne(filter, update);
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
+
+        private string GetDescription (Match match, bool highWins)
+        {
+            Score highest = null, lowest = null;
+
+            foreach (var score in match.Scores)
+            {
+                if (highest == null || score.Points > highest.Points)
+                {
+                    highest = score;
+                }
+                if (lowest == null || score.Points < lowest.Points)
+                {
+                    lowest = score;
+                }
+            }
+
+            var pattern = "{0} beat {1} {2} to {3}";
+            var ret = highWins ? 
+                String.Format(pattern, highest.PlayerName, lowest.PlayerName, highest.Points, lowest.Points) : 
+                String.Format(pattern, lowest.PlayerName, highest.PlayerName, lowest.Points, highest.Points);
+
+            return ret.ToString();
+        }
+
     }
 }

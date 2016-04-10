@@ -7,7 +7,8 @@ namespace ScoreKeeper.Models
 {
     public class Score
     { 
-        public Player Player { get; set; }
+        //replace this with a player ObjectId when the player object gets bigger
+        public string PlayerName { get; set; }
         public Int32 Points { get; set;}
     }
 }

@@ -5,14 +5,23 @@ sKa.listGames = function() {
         $.each(data, function (ctr, record) {
             $("#games-list").append("<li id='"+ record.Id +"' class='game-title'>" + record.Name + "</li>");
         });
-        $(".game-title").click(sKa.showGame);
+        $(".game-title").click(sKa.selectGame);
     });
 }
 
 
-sKa.listMatches = function () {
-    $.get("../api/Match", {}, function (data) {
-        console.log("fetched data");
+sKa.addMatch = function () {
+    var data =
+        {
+            GameId: $(".selected")[0].id,
+            Scores : 
+                [
+                    { PlayerName: $("#player1").val(), Points: $("#score1").val() },
+                    { PlayerName: $("#player2").val(), Points: $("#score2").val() }
+                ]
+        }
+    $.post("../api/Match", data, function (res) {
+        sKa.showGame();
     });
 }
 
@@ -33,15 +42,14 @@ sKa.clearForm = function () {
 
 sKa.showGame = function ()
 {
-    $(".selected").removeClass("selected");
-    $.get("../api/Game/" + this.id, {}, function (data) {
-        $('#' + data.Id).addClass("selected");
+    
+    $.get("../api/Game/" + $(".selected")[0].id, {}, function (data) {
         $("#game-details-title").html(data.Name);
         $("#game-details-description").html(data.Description);
         $("#game-details-match-list").empty();
-        if (data.MatchIds) {
-            $.each(data.MatchIds, function (ctr, match) {
-                $("#game-details-match-list").append("<li>" + match + "</li>");
+        if (data.Matches) {
+            $.each(data.Matches, function (ctr, match) {
+                $("#game-details-match-list").append("<li>" + match.Description +  "</li>");
             });
         }
 
@@ -49,7 +57,11 @@ sKa.showGame = function ()
 
 }
 
-
+sKa.selectGame = function () {
+    $(".selected").removeClass("selected");
+    $("#" + this.id).addClass("selected")
+    sKa.showGame();
+}
 
 
 $(document).ready(function () {
@@ -57,4 +69,6 @@ $(document).ready(function () {
     sKa.listGames();
 
     $("#add-game").click(sKa.addGame);
+    $("#add-match").click(sKa.addMatch);
+
 });

@@ -16,5 +16,9 @@ namespace ScoreKeeper.Models
         public ICollection<string> Categories { get; set; }
         public bool HighestScoreWins { get; set; }
         public ICollection<ObjectId> MatchIds { get; set; }
+
+        [BsonIgnore]
+        public ICollection<Match> Matches { get; set; }
+
     }
 }

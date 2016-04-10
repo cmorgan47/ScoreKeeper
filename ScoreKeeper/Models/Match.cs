@@ -12,6 +12,8 @@ namespace ScoreKeeper.Models
         [BsonId]
         public ObjectId Id { get; set; }
         public string GameId { get; set; }
+        public string Description { get; set; }
+        public DateTime DatePlayed { get; set; }
         public ICollection<Score> Scores { get; set; }
     }
 }
