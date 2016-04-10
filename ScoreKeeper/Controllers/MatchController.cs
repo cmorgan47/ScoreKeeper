@@ -23,8 +23,19 @@ namespace ScoreKeeper.Controllers
 
         public HttpResponseMessage Get()
         {
+            //todo: make this return some overall stats
             var ret = (this.context.Matches.AsQueryable())
                 .ToList();
+
+            var highScoreList = (this.context.Matches.AsQueryable())
+                .Where(x => x.HighestScoreWins == true)
+                .Select(x => x.Scores)
+                .ToList();
+            var lowScoreList = (this.context.Matches.AsQueryable())
+                .Where(x => x.HighestScoreWins == false)
+                .Select(x => x.Scores)
+                .ToList();
+
 
             return this.Request.CreateResponse(
                 HttpStatusCode.OK,
@@ -50,6 +61,7 @@ namespace ScoreKeeper.Controllers
                 .Select(x => x.HighestScoreWins)
                 .SingleOrDefault();
 
+            match.HighestScoreWins = highWins;
             match.Description = GetDescription(match, highWins);
 
             this.context.Matches.InsertOne(match);

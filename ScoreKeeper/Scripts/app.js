@@ -9,7 +9,6 @@ sKa.listGames = function() {
     });
 }
 
-
 sKa.addMatch = function () {
     var data =
         {
@@ -63,21 +62,42 @@ sKa.showGame = function ()
 }
 
 sKa.selectGame = function () {
-    $(".selected").removeClass("selected");1
-    $("#" + this.id).addClass("selected")
-    sKa.showGame();
-    $("#show-match-form-button").show();
-    
+    if ($("#" +this.id).hasClass("selected")){
+        $("#" + this.id).removeClass("selected")
+        $("#game-details-container").hide();
+        $("#show-match-form-button").show();
+
+    }else{
+        $(".selected").removeClass("selected");
+        $("#game-details-container").show();
+        $("#" + this.id).addClass("selected")
+         sKa.showGame();
+        $("#show-match-form-button").show();
+    }
 }
 
 sKa.showGameForm = function () {
-    $("#add-game-form").show();
+    if ($("#add-game-form").is(":visible")) {
+        $("#add-game-form").hide();
+        $("#show-game-form-button").removeClass("selected");
+        sKa.clearForm();
+    } else {
+        $("#add-game-form").show();
+        $("#game-name").focus();
+        $("#show-game-form-button").addClass("selected");
+    }
 }
 
 sKa.showMatchForm = function () {
-    $("#add-match-form").show();
+    if ($("#add-match-form").is(":visible")) {
+        $("#show-match-form-button").removeClass("selected");
+        $("#add-match-form").hide();
+    } else {
+        $("#show-match-form-button").addClass("selected");
+        $("#add-match-form").show();
+        $("#player1").focus();
+    }
 }
-
 
 $(document).ready(function () {
     sKa.clearForm();
