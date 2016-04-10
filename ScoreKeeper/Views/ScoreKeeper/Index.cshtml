@@ -12,7 +12,10 @@
 </head>
 <body>
     <div id="main">
-        <h2>Games</h2>
+        <div id="top">
+            <span class="title">Games</span>
+            <span class="add-button" id="show-game-form-button">New Game</span>
+        </div>
 
         <div id="game-list-container">
             <ul id="games-list"></ul>
@@ -44,29 +47,35 @@
 
             
             <div id="game-details-container">
-                <div id="game-details-title"></div>
+                <span id="game-details-title"></span>
+                <span class="add-button" id="show-match-form-button">New Match</span>
                 <div id="game-details-description"></div>
                 <ul id="game-details-match-list"></ul>
 
-                <div id="add-match-form">
-                    <div class="form-row">
-                        <label for="player1">Player 1</label>
-                        <input id="player1" type="text" />
-                        <input id="score1" type="text" size="4"/>
-                    </div>
-
-                    <div class="form-row">
-                        <label for="player1">Player 2</label>
-                        <input id="player2" type="text" />
-                        <input id="score2"  type="text" size="4" />
-                    </div>
-
-                    <div id="add-match" class="add-button">+</div>
-                </div>
             </div>
+
+            <div id="add-match-form">
+                <div class="form-row">
+                    <label for="player1">Player 1</label>
+                    <input id="player1" type="text" />
+                    <input id="score1" type="text" size="4" />
+                </div>
+
+                <div class="form-row">
+                    <label for="player1">Player 2</label>
+                    <input id="player2" type="text" />
+                    <input id="score2" type="text" size="4" />
+                </div>
+
+                <div id="add-match" class="add-button">+</div>
+            </div>
+
+
+
         </div>
 
         <div style="clear: both;"></div>
     </div>
 </body>
 </html>
+        

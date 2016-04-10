@@ -52,6 +52,7 @@ namespace ScoreKeeper.Controllers
 
         public HttpResponseMessage Post(Models.Game game)
         {
+            game.MatchIds = new List<ObjectId>();
             this.context.Games.InsertOne(game);
 
             var ret = new HttpResponseMessage(HttpStatusCode.OK) ;

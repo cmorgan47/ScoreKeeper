@@ -20,8 +20,12 @@ sKa.addMatch = function () {
                     { PlayerName: $("#player2").val(), Points: $("#score2").val() }
                 ]
         }
+
     $.post("../api/Match", data, function (res) {
         sKa.showGame();
+        $("#add-match-form").hide();
+        $("#score1").val("");
+        $("#score2").val("");
     });
 }
 
@@ -29,8 +33,9 @@ sKa.addGame = function () {
     var data = { Name: $("#game-name").val(), Description: $("#game-description").val(), HighestScoreWins: $("#highest-score-wins").prop("checked") };
     $.post("../api/Game", data, function (data) {
         $("#games-list").empty();
-        listGames();
-        clearForm();
+        sKa.listGames();
+        sKa.clearForm();
+        $("#add-game-form").hide();
     });
 }
 
@@ -58,9 +63,19 @@ sKa.showGame = function ()
 }
 
 sKa.selectGame = function () {
-    $(".selected").removeClass("selected");
+    $(".selected").removeClass("selected");1
     $("#" + this.id).addClass("selected")
     sKa.showGame();
+    $("#show-match-form-button").show();
+    
+}
+
+sKa.showGameForm = function () {
+    $("#add-game-form").show();
+}
+
+sKa.showMatchForm = function () {
+    $("#add-match-form").show();
 }
 
 
@@ -68,7 +83,12 @@ $(document).ready(function () {
     sKa.clearForm();
     sKa.listGames();
 
+    $("#add-game-form").hide();
+    $("#add-match-form").hide();
+    $("#show-match-form-button").hide();
+
     $("#add-game").click(sKa.addGame);
     $("#add-match").click(sKa.addMatch);
-
+    $("#show-game-form-button").click(sKa.showGameForm);
+    $("#show-match-form-button").click(sKa.showMatchForm);
 });
